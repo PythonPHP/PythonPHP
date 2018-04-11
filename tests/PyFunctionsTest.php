@@ -16,11 +16,39 @@ namespace PythonPHP\Tests;
 
 use ArrayIterator;
 use Generator;
-use function PythonPHP\zip;
 use PHPUnit\Framework\TestCase;
+
+use function PythonPHP\enumerate;
+use function PythonPHP\zip;
 
 class PyFunctionsTest extends TestCase
 {
+    /**
+     * @dataProvider enumerateProvider
+     * @param array $expected
+     * @param iterable|string $iterable
+     * @param int $start
+     */
+    public function testEnumerate(array $expected, $iterable, int $start = 0)
+    {
+        $generator = enumerate($iterable, $start);
+        $this->assertInstanceOf(Generator::class, $generator);
+        $this->assertSame($expected, iterator_to_array($generator));
+    }
+
+    public function enumerateProvider()
+    {
+        // expected, iterable
+        return [
+            [["a", "b", "c"], "abc"],
+            [[5 => "a", 6 => "b", 7 => "c"], "abc", 5],
+            [[6 => "x", 7 => "y", 8 => "z"], ["x", "y", "z"], 6],
+            [[1 => 2, 2 => 4, 3 => 6, 4 => 8, 5 => 10], range(2, 10, 2), 1],
+            [[7 => "Z", 8 => "o", 9 => "ë"], "Zoë", 7],
+            [[4 => "Z", 5 => "o", 6 => "ë"], [1 => "Z", 2 => "o", 3 => "ë"], 4],
+        ];
+    }
+
     /**
      * @dataProvider zipProvider
      */
@@ -45,6 +73,7 @@ class PyFunctionsTest extends TestCase
             array([["a", "x"], ["b", "y"], ["c", "z"]], "abc", "xyz"),
             array([["a", 1], ["b", 2], ["c", 3]], "abc", [1, 2, 3]),
             array([], "", "abcdef"),
+            array([["Z", "Z"], ["o", "o"], ["ë", "é"]], "Zoë", "Zoé"),
         );
     }
 }

@@ -68,6 +68,7 @@ class PosixPath
                 $result .= "/" . $segment;
             }
         }
+
         return $result;
     }
 
@@ -80,6 +81,7 @@ class PosixPath
         if ($path === "") {
             return ".";
         }
+
         $initialSlashes = (int) (strpos($path, "/") === 0);
         // POSIX allows one or two initial slashes, but treats three or more as a single slash
         if ($initialSlashes && strpos($path, "//") === 0 && (!(strpos($path, "///") === 0))) {
@@ -92,6 +94,7 @@ class PosixPath
             if ($segment === "" || $segment === ".") {
                 continue;
             }
+
             if (
                 $segment !== ".." ||
                 ((!$initialSlashes) && (!$newSegments)) ||
@@ -107,6 +110,7 @@ class PosixPath
         if ($initialSlashes) {
             $newPath = str_repeat("/", $initialSlashes) . $newPath;
         }
+
         return $newPath;
     }
 
@@ -120,9 +124,11 @@ class PosixPath
         if (!$path) {
             throw new InvalidArgumentException("No path specified");
         }
+
         if ($start === null) {
             $start = ".";
         }
+
         $startList = array_values(array_filter(explode("/", $this->abspath($start))));
         $pathList = array_values(array_filter(explode("/", $this->abspath($path))));
 

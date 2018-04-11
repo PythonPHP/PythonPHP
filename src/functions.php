@@ -30,11 +30,13 @@ function enumerate($sequence, int $start = 0): Generator
     if (!$sequence) {
         return;
     }
-    // PHP strings aren't iterable like they are in python, so we have
+
+    // PHP strings aren't iterable like they are in python, so we need
     // to split them up into character arrays first.
     if (is_string($sequence) === true) {
-        $sequence = str_split($sequence);
+        $sequence = preg_split("//u", $sequence, -1, PREG_SPLIT_NO_EMPTY);
     }
+
     $n = $start;
     foreach ($sequence as $elem) {
         yield $n => $elem;
@@ -53,15 +55,7 @@ function zip(...$iterables): Generator
 {
     $arrays = array_map(function($iterable) {
         if (is_string($iterable)) {
-            // PHP strings aren't iterable like they are in python, so we have
-            // to split the up into character arrays first.
-            if (strlen($iterable)) {
-                return str_split($iterable);
-            } else {
-                // If you pass an empty string to str_split(), it will return
-                // an array with one element - an empty string.
-                return array();
-            }
+            return preg_split("//u", $iterable, -1, PREG_SPLIT_NO_EMPTY);
         } elseif ($iterable instanceof Iterator) {
             return iterator_to_array($iterable);
         } else {

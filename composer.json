@@ -1,7 +1,7 @@
 {
     "name": "pythonphp/pythonphp",
     "type": "library",
-    "description": "Ports of various python standard library functionality to PHP.",
+    "description": "Ports of various Python standard library functionality to PHP.",
     "keywords": ["python"],
     "homepage": "https://github.com/PythonPHP/PythonPHP",
     "license": "GPL3",
@@ -11,10 +11,10 @@
         }
     ],
     "require": {
-        "php": ">=7.0.8"
+        "php": ">=7.2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "6.1.3"
+        "phpunit/phpunit": "7.1.2"
     },
     "autoload": {
         "files": [

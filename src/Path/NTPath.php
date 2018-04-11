@@ -31,6 +31,7 @@ class NTPath
         if ($this->isabs($path) === false) {
             $path = $this->join($this->getCwd(), $path);
         }
+
         return $this->normpath($path);
     }
 
@@ -68,6 +69,7 @@ class NTPath
                 if ($segmentDrive || (!$resultDrive)) {
                     $resultDrive = $segmentDrive;
                 }
+
                 $resultPath = $segmentPath;
                 continue;
             } elseif ($segmentDrive && $segmentDrive !== $resultDrive) {
@@ -76,17 +78,21 @@ class NTPath
                     $resultPath = $segmentPath;
                     continue;
                 }
+
                 $resultDrive = $segmentDrive;
             }
 
             if ($resultPath && in_array(substr($resultPath, -1, 1), array("\\", "/")) === false) {
                 $resultPath .= "\\";
             }
+
             $resultPath .= $segmentPath;
         }
+
         if ($resultPath && in_array($resultPath[0], array("\\", "/")) === false && $resultDrive && substr($resultDrive, -1, 1) !== ":") {
             return $resultDrive . "\\" . $resultPath;
         }
+
         return $resultDrive . $resultPath;
     }
 
@@ -116,6 +122,7 @@ class NTPath
         if ($startsWith($path, array("\\\\.\\", "\\\\?\\"))) {
             return $path;
         }
+
         $path = str_replace("/", "\\", $path);
         list($prefix, $path) = $this->splitdrive($path);
 
@@ -144,9 +151,11 @@ class NTPath
                 $i += 1;
             }
         }
+
         if ((!$prefix) && (!$segments)) {
             $segments[] = ".";
         }
+
         return $prefix . implode("\\", $segments);
     }
 
@@ -162,6 +171,7 @@ class NTPath
         if (!$path) {
             throw new InvalidArgumentException("No path specified");
         }
+
         if ($start === null) {
             $start = ".";
         }
@@ -211,13 +221,16 @@ class NTPath
                 if ($index === false) {
                     return array("", $path);
                 }
+
                 $index2 = strpos($normalisedPath, "\\", $index + 1);
                 if ($index2 === $index + 1) {
                     return array("", $path);
                 }
+
                 if ($index2 === false) {
                     $index2 = strlen($path);
                 }
+
                 return array(substr($path, 0, $index2), substr($path, $index2));
             }
 
@@ -225,6 +238,7 @@ class NTPath
                 return array(substr($path, 0, 2), substr($path, 2));
             }
         }
+
         return array("", $path);
     }
 }

@@ -19,6 +19,21 @@ use PHPUnit\Framework\Constraint\StringStartsWith;
 class PythonStringStartsWithConstraint extends StringStartsWith
 {
     /**
+     * var string
+     */
+    private $prefix;
+
+    /**
+     * @param string $prefix
+     */
+    public function __construct(string $prefix)
+    {
+        parent::__construct($prefix);
+
+        $this->prefix = $prefix;
+    }
+
+    /**
      * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
      * Overridden to allow an empty string as the prefix, which is allowed
@@ -27,11 +42,12 @@ class PythonStringStartsWithConstraint extends StringStartsWith
      * @param mixed $other Value or object to evaluate.
      * @return bool
      */
-    protected function matches($other)
+    protected function matches($other): bool
     {
         if (strlen($this->prefix) === 0) {
             return true;
         }
+
         return parent::matches($other);
     }
 }
