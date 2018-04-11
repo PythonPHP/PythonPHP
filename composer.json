@@ -4,7 +4,7 @@
     "description": "Ports of various Python standard library functionality to PHP.",
     "keywords": ["python"],
     "homepage": "https://github.com/PythonPHP/PythonPHP",
-    "license": "GPL3",
+    "license": "GPL-3.0-only",
     "authors": [
         {
             "name": "Matthew Gamble"
